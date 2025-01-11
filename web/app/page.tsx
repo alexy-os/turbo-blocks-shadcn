@@ -3,7 +3,6 @@ import { HeroSplitWithGallery } from "@/components/blocks/hero/HeroSplitWithGall
 import { ButtonProps } from "@workspace/ui/components/button"
 import { BadgeProps } from "@workspace/ui/components/badge"
 
-// Определяем тип, соответствующий исходному компоненту
 type CustomContent = {
   badge?: BadgeProps & {
     text: string
@@ -29,7 +28,6 @@ type CustomContent = {
   }
 }
 
-// Создаем кастомный контент
 const customContent: CustomContent = {
   badge: {
     text: "BuildY/UI",
@@ -80,5 +78,5 @@ const customContent: CustomContent = {
 }
 
 export default function Page() {
-  return <HeroSplitWithGallery className="bg-gradient-to-br from-slate-950 to-violet-950" {...customContent } />
+  return <HeroSplitWithGallery className="w-full h-screen bg-gradient-to-br from-slate-950 to-violet-950" {...customContent } />
 }
