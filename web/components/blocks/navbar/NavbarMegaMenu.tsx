@@ -23,7 +23,6 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@workspace/ui/components/navigation-menu";
-import { registerViewScript } from '@/utils/viewScript';
 
 type Content = {
   brand: {
@@ -323,64 +322,3 @@ const HeroSection = () => (
 
 // Strict adherence to the current component name
 const componentName = "NavbarMegaMenu" as const;
-
-// Register the ViewScript for this component
-registerViewScript(componentName, () => `
-<script>
-    let isMenuOpen = false;
-    let activeSubmenu = null;
-    const burgerBtn = document.querySelector('[aria-controls="radix-:Rt:"]');
-    const desktopButtons = document.querySelectorAll('[data-radix-collection-item]');
-    const mobileSheet = document.createElement('div');
-    mobileSheet.className = 'fixed inset-y-0 right-0 w-[80%] max-w-sm bg-background shadow-xl transform translate-x-full transition-transform duration-300 z-20';
-    mobileSheet.innerHTML = \` <div class="p-4 space-y-4"><div class="flex justify-between items-center"><h2 class="text-lg font-semibold">Menu</h2><button class="close-sheet p-2">✕</button></div><div class="space-y-2"> \${Array.from(desktopButtons).map(btn => \` <div class="mobile-menu-item"><button class="w-full text-left p-3 hover:bg-accent rounded-md flex justify-between items-center"> \${btn.textContent} </button><div class="submenu hidden pl-4 space-y-2 mt-2"><a href="#" class="block p-2 hover:bg-accent rounded-md">Submenu Item 1</a><a href="#" class="block p-2 hover:bg-accent rounded-md">Submenu Item 2</a></div></div> \`).join('')} </div></div> \`;
-
-    function handleDesktopMenu() {
-      desktopButtons.forEach(btn => {
-      if (!btn.hasAttribute('aria-expanded')) return;
-      const submenu = document.createElement('div');
-      submenu.className = 'absolute top-full left-0 mt-2 w-48 bg-background shadow-lg rounded-md hidden';
-      submenu.innerHTML = \` <div class="p-2 space-y-1"><a href="#" class="block px-3 py-2 rounded-md hover:bg-accent">Submenu Item 1</a><a href="#" class="block px-3 py-2 rounded-md hover:bg-accent">Submenu Item 2</a></div> \`;
-      btn.parentElement.appendChild(submenu);
-      btn.addEventListener('click', () => {
-        const isOpen = btn.getAttribute('data-state') === 'open';
-        if (isOpen) {
-        btn.setAttribute('data-state', 'closed');
-        submenu.classList.add('hidden');
-        } else {
-        btn.setAttribute('data-state', 'open');
-        submenu.classList.remove('hidden');
-        }
-      });
-      });
-    }
-    function handleMobileMenu() {
-      document.body.appendChild(mobileSheet);
-      burgerBtn.addEventListener('click', () => {
-      isMenuOpen = !isMenuOpen;
-      mobileSheet.style.transform = isMenuOpen ? 'translateX(0)' : 'translateX(100%)';
-      });
-      mobileSheet.querySelector('.close-sheet').addEventListener('click', () => {
-      isMenuOpen = false;
-      mobileSheet.style.transform = 'translateX(100%)';
-      });
-      mobileSheet.querySelectorAll('.mobile-menu-item button').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const submenu = e.currentTarget.nextElementSibling;
-        submenu.classList.toggle('hidden');
-      });
-      });
-    }
-    handleDesktopMenu();
-    handleMobileMenu();
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('[data-radix-collection-item]')) {
-      desktopButtons.forEach(btn => {
-        btn.setAttribute('data-state', 'closed');
-        const submenu = btn.parentElement.querySelector('.absolute');
-        if (submenu) submenu.classList.add('hidden');
-      });
-      }
-    });
-</script>
-`);

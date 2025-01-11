@@ -1,7 +1,5 @@
 import { ChartPie, WalletIcon, Magnet } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardDescription } from "@workspace/ui/components/card";
-import Lottie from "lottie-react";
-import animationData from "@/assets/lottie/promo.json";
 
 type Content = {
   title: string;
@@ -83,7 +81,13 @@ export const PromoServiceLottie = (props: PromoServiceLottieProps) => {
         </div>
 
         <div className="w-full max-w-md lg:max-w-lg">
-          <Lottie animationData={animationData} loop={true} />
+          <div 
+            className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center text-muted-foreground"
+            role="img" 
+            aria-label="Lottie animation placeholder"
+          >
+            [Lottie Animation]
+          </div>
         </div>
       </div>
     </section>

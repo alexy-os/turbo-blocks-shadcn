@@ -64,7 +64,7 @@ const content: Content = {
 type BlogArticlesColumnsCardsProps = React.ComponentPropsWithoutRef<"section"> & Partial<Content>;
 
 export const BlogArticlesColumnsCards = (props: BlogArticlesColumnsCardsProps) => {
-  const { title, description, articles } = {
+  const { title, description, articles = [] } = {
     ...content,
     ...props
   };
@@ -94,7 +94,7 @@ export const BlogArticlesColumnsCards = (props: BlogArticlesColumnsCardsProps) =
                 <Avatar className="h-6 w-6">
                   <AvatarImage src={article.author.avatar} />
                   <AvatarFallback>
-                    {article.author.name[0] + article.author.name.split(" ")[1][0]}
+                    {(article.author.name?.charAt(0) ?? '') + (article.author.name?.split(" ")[1]?.charAt(0) ?? '')}
                   </AvatarFallback>
                 </Avatar>
                 <span>{article.author.name}</span>
@@ -109,7 +109,7 @@ export const BlogArticlesColumnsCards = (props: BlogArticlesColumnsCardsProps) =
               </p>
             </div>
           </article>
-        ))}
+        )) ?? null}
         </div>
       </div>
     </section>
